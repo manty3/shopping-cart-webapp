@@ -35,7 +35,7 @@ app.use(fileUpload())
 //   console.log("Database connected")
 // })
 
-mongoose.connect("//akshaymadathil3:Pq9UMD7JKiwEwVTq@cluster0.8otn68e.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+mongoose.connect("mongodb+srv://akshaymadathil3:Pq9UMD7JKiwEwVTq@cluster0.8otn68e.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 const server = http.createServer(app);
 
 server.listen(4000,function(){
