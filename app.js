@@ -24,6 +24,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload())
+
+const mongoUrl = 'mongodb://localhost:27017/shopping';
 app.use(session({secret:"key",cookie:{maxAge:180 * 60 * 1000 }}))
 db.connect((err)=>{
   if(err) console.log("connection error"+err)
