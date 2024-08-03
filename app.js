@@ -35,7 +35,7 @@ app.use(fileUpload())
 //   console.log("Database connected")
 // })
 
-mongoose.connect("mongodb+srv://akshaymadathil3:hLpWaXcKvr7gSwfi@dbtest.9y1822z.mongodb.net/?retryWrites=true&w=majority&appName=dbtest")
+mongoose.connect("mongodb://localhost:27017/myapp")
 const server = http.createServer(app);
 
 server.listen(3000,function(){
