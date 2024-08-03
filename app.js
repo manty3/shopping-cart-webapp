@@ -38,8 +38,8 @@ app.use(fileUpload())
 mongoose.connect("mongodb+srv://akshaymadathil3:Pq9UMD7JKiwEwVTq@cluster0.8otn68e.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 const server = http.createServer(app);
 
-server.listen(3000,function(){
-  console.log('listening on port 3000')
+server.listen(4000,function(){
+  console.log('listening on port 4000')
 })
 
 app.use('/', usersRouter);
