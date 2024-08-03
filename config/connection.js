@@ -1,7 +1,7 @@
 require('dotenv').config();
 const { MongoClient } = require('mongodb')
 
-const uri = 'mongodb+srv://akshaymadathil3:Pq9UMD7JKiwEwVTq@cluster0.8otn68e.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const uri = "mongodb+srv://akshaymadathil3:hLpWaXcKvr7gSwfi@dbtest.9y1822z.mongodb.net/?retryWrites=true&w=majority&appName=dbtest"
 console.log('MongoDB URI:', uri);
 if (!uri) {
   throw new Error('MongoDB connection string is not defined');

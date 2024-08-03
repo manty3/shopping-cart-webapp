@@ -13,7 +13,7 @@ var session = require('express-session');
 const MongoStore = require('connect-mongo');
 const mongoose= require('mongoose')
 const http = require('http');
-
+const bodyParser = require('body-parser');
 
 // const { error, log } = require('console');
 // view engine setup
@@ -42,9 +42,10 @@ server.listen(3000,function(){
   console.log('listening on port 3000')
 })
 
+app.use(bodyParser.json());
 app.use('/', usersRouter);
 app.use('/admin', adminRouter);
-db
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
