@@ -1,0 +1,14 @@
+.cart-item-count{
+  background-color: #FFD700; /* Green */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 10px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+
+}
