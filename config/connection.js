@@ -6,7 +6,8 @@ console.log('MongoDB URI:', uri);
 if (!uri) {
   throw new Error('MongoDB connection string is not defined');
 }
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true,replicaSet: 'rs0',
+  readPreference: 'primary'});
 client.connect(err => {
   if (err) {
       console.error('Failed to connect to MongoDB:', err);

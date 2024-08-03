@@ -35,11 +35,11 @@ app.use(fileUpload())
 //   console.log("Database connected")
 // })
 
-mongoose.connect("mongodb+srv://akshaymadathil3:Pq9UMD7JKiwEwVTq@cluster0.8otn68e.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+mongoose.connect("mongodb+srv://akshaymadathil3:hLpWaXcKvr7gSwfi@dbtest.9y1822z.mongodb.net/?retryWrites=true&w=majority&appName=dbtest")
 const server = http.createServer(app);
 
-server.listen(4000,function(){
-  console.log('listening on port 4000')
+server.listen(3000,function(){
+  console.log('listening on port 3000')
 })
 
 app.use('/', usersRouter);
