@@ -10,7 +10,7 @@ const app = express();
 const fileUpload =require('express-fileupload')
 var db=require('./config/connection');
 var session = require('express-session');
-
+const MongoStore = require('connect-mongo');
 
 
 // const { error, log } = require('console');
@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload())
-app.use(session({secret:"key",cookie:{maxAge:600000}}))
+app.use(session({secret:"key",cookie:{maxAge:180 * 60 * 1000 }}))
 db.connect((err)=>{
   if(err) console.log("connection error"+err)
 
