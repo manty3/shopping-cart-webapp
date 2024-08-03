@@ -5,7 +5,7 @@ const state = {
 };
 
 // MongoDB connection string
-const url = 'mongodb://127.0.0.1:27017';
+const url = "mongodb+srv://akshaymadathil3:<Pq9UMD7JKiwEwVTq>@cluster0.8otn68e.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 // Database name
 const dbName = 'shopping';
 
