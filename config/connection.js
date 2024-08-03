@@ -1,65 +1,22 @@
-const  MongoClient  = require('mongodb').MongoClient;
+require('dotenv').config();
+const { MongoClient } = require('mongodb');
 
-const state = {
-  db: null,
-};
+const uri = process.env.MONGODB_URI;
 
-// MongoDB connection string
-const url = "mongodb+srv://akshaymadathil3:<Pq9UMD7JKiwEwVTq>@cluster0.8otn68e.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-// Database name
-const dbName = 'shopping';
-
-
-
-
-let db;
-
-MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
-    if (err) {
-        console.error('Failed to connect to the database. Error:', err);
-        process.exit(1);
-    }
-    db = client.db(dbName);
-    console.log('Database connection established');
+const client = new MongoClient(uri, {
+  tls: true,          // Use TLS (SSL) connection
+  tlsAllowInvalidCertificates: true // Disable certificate validation (for development only)
 });
 
-
-
-
-
-
-
-
-// Create a new MongoDB client object
-const client = new MongoClient(url);
-
-// Function to establish MongoDB connection
-const connect = async (cb) => {
+async function connectToDatabase() {
   try {
-    // Connecting to MongoDB
     await client.connect();
-    // Setting up database name to the connected client
-    const db = client.db(dbName);
-    // Setting up database name to the state
-    state.db = db;
-    // Callback after connected
-    return cb();
+    console.log('Connected to MongoDB');
+    const database = client.db('myDatabase');
+    return database;
   } catch (err) {
-    // Callback when an error occurs
-    return cb(err);
+    console.error('Failed to connect to MongoDB', err);
   }
+}
 
-};
-
-
-// Function to get the database instance
-const get = () => state.db;
-
-// Exporting functions
-module.exports = {
-  connect,
-  get,
-
-
-  
-};
+module.exports = { connectToDatabase, client };
