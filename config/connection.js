@@ -1,12 +1,17 @@
-require('dotenv').config();
-const  MongoClient  = require('mongodb').MongoClient;
 
+const  MongoClient  = require('mongodb').MongoClient;
+const mongoose = require('mongoose')
 const state = {
   db: null,
 };
 
 // MongoDB connection string
-const url = 'mongodb://127.0.0.1:27017';
+// const url = 'mongodb://127.0.0.1:27017';
+// const url= 'mongodb+srv://akshaymadathil3:nEETfuGZ1xmLcsxt@webapp.x9sdfh3.mongodb.net/'
+
+const mongoURL = process.env.MONGODB_URL;
+
+
 // Database name
 const dbName = 'shopping';
 

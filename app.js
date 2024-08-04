@@ -10,7 +10,7 @@ const app = express();
 const fileUpload =require('express-fileupload')
 var db=require('./config/connection');
 var session = require('express-session');
-
+require('dotenv').config();
 
 
 // const { error, log } = require('console');
@@ -33,7 +33,12 @@ db.connect((err)=>{
 
 app.use('/', usersRouter);
 app.use('/admin', adminRouter);
-db
+
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, ()=>{
+  console.log('listening on port 3000')
+})
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
