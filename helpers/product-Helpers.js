@@ -1,6 +1,7 @@
 const db= require('../config/connection')
 const collection=require('../config/collections');
 const { response } = require('../app');
+const { log } = require('handlebars');
  var ObjectId=require('mongodb').ObjectId;
 module.exports={
   addProduct:(product,callback)=>{
@@ -10,6 +11,8 @@ module.exports={
       callback(data.insertedId.toString())
     })
   },
+
+
   getAllProducts:()=>{
      return new Promise(async (resolve, reject) =>{
       try{
@@ -35,11 +38,15 @@ db.get().collection(collection.PRODUCT_COLLECTION).deleteOne({_id: new ObjectId(
   getProductDetails:(prodId)=>{
     return new Promise((resolve, reject) => {
       db.get().collection(collection.PRODUCT_COLLECTION).findOne({_id: new ObjectId(prodId)}).then((product)=>{
+        if (!product) {
+          reject(new Error('Product not found'));
+      } else {
 resolve(product)
+      }
       })
     })
   },
-  updataProduct:(prodId,proDetails)=>{
+  updateProduct:(prodId,proDetails)=>{
     return new Promise((resolve, reject) => {
       db.get().collection(collection.PRODUCT_COLLECTION).updateOne({_id:new ObjectId(prodId)},{
        $set:{

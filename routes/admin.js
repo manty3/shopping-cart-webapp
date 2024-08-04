@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const {ADMIN_COLLECTION}=require('../config/collections')
+const multer = require('multer');
+const collections =require('../config/collections')
 const db = require('../config/connection');
 var userHelpers=require('../helpers/user-helpers')
 var productHelpers = require('../helpers/product-Helpers');
-// var adminHelpers = require('../helpers/admin-helpers')
+
 const session = require('express-session');
 /* GET users listing. */
 
@@ -18,13 +19,6 @@ const verifyAdminLogin = (req, res, next) => {
     res.redirect('/admin/login');
   }
 };
-
-
-
-
-
-
-
 
 
 router.get('/login', (req, res) => {
@@ -72,7 +66,7 @@ router.get('/logout', (req, res) => {
 router.get('/',verifyAdminLogin, function(req, res, next) {
 productHelpers.getAllProducts().then((products)=>{
 
-  res.render('admin/view-products',{admin:req.session.admin,products});
+  res.render('admin/view-products',{products});
 })
   
 
@@ -102,58 +96,27 @@ router.get('/delete-Product/:id',(req,res)=>{
   let proId=req.params.id
   console.log(proId)
   productHelpers.deleteProduct(proId).then((response)=>{
-    res.redirect('/admin/products')
+    res.redirect('/admin/')
   })
 })
 
 router.get('/edit-product/:id',async(req,res)=>{
+ 
   let product= await productHelpers.getProductDetails(req.params.id)
   console.log(product)
   res.render('admin/edit-product',{product})
 })
 
 router.post('/edit-product/:id',(req,res)=>{
-  let id=req.params.id
-  productHelpers.updataProduct(req.params.id,req.body).then(()=>{
+  let id = req.params.id
+  productHelpers.updateProduct(req.params.id,req.body).then(()=>{
     res.redirect('/admin')
     if(req.files.Image) {
-      let image=req.files.image
+      let image=req.files.Image
       image.mv('./public/product-images/'+id+'.jpg')
     }
   })
  
 })
-
-// router.get('/admin/login', (req, res) => {
-//   if (req.session.admin && req.session.admin.loggedIn) {
-//     res.redirect('/');
-//   } else {
-//     res.render('user/login', { "loginErr": req.session.userLoginErr });
-//     req.session.userLoginErr = false;
-//   }
-// });
-
-
-// router.post('/admin/login', (req, res) => {
-//   const { username, password } = req.body;
-//   adminHelpers.authenticateAdmin(username, password).then((admin) => {
-//     if (admin) {
-//       req.session.admin = admin;
-//       req.session.admin.loggedIn = true;
-//       res.redirect('/admin/login');
-//     } else {
-//       req.session.userLoginErr = 'Invalid username or password';
-//       res.redirect('/admin');
-//     }
-//   });
-// });
-
-
-router.get('/orders',async (req, res) => {
-
-  let orders = await userHelpers.getadminOrders(req.session.admin._id)
-  // Fetch orders and render the page
-  res.render('admin/orders', {  orders })
-});
 
 module.exports = router;

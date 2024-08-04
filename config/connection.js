@@ -1,62 +1,59 @@
+const MongoClient = require('mongodb').MongoClient;
+const mongoose = require('mongoose');
+require('dotenv').config();
 
-const  MongoClient  = require('mongodb').MongoClient;
-const mongoose = require('mongoose')
+
 const state = {
-  db: null,
+  db: process.env.MONGODB_URL_LOCAL+"/shopping",
 };
 
-// MongoDB connection string
-// const url = 'mongodb://127.0.0.1:27017';
-// const url= 'mongodb+srv://akshaymadathil3:nEETfuGZ1xmLcsxt@webapp.x9sdfh3.mongodb.net/'
+// MongoDB connection string from environment variable
+const URL = process.env.MONGODB_URL_LOCAL;
 
-const mongoURL = process.env.MONGODB_URL;
+if (!URL) {
+  console.error('MONGODB_URL_LOCAL environment variable is not set.');
+  process.exit(1);
+}
 
+console.log("MongoDB URL:", URL);
 
 // Database name
 const dbName = 'shopping';
 
-
-
-
-let db;
-
-MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
+// Function to establish MongoDB connection using MongoClient
+const connectMongoClient = (cb) => {
+  MongoClient.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
     if (err) {
-        console.error('Failed to connect to the database. Error:', err);
-        process.exit(1);
+      console.error('Failed to connect to the database. Error:', err);
+      return cb(err);
     }
-    db = client.db(dbName);
-    console.log('Database connection established');
-});
-
-
-
-
-
-
-
-
-// Create a new MongoDB client object
-const client = new MongoClient(url);
-
-// Function to establish MongoDB connection
-const connect = async (cb) => {
-  try {
-    // Connecting to MongoDB
-    await client.connect();
-    // Setting up database name to the connected client
-    const db = client.db(dbName);
-    // Setting up database name to the state
-    state.db = db;
-    // Callback after connected
-    return cb();
-  } catch (err) {
-    // Callback when an error occurs
-    return cb(err);
-  }
-
+    state.db = client.db(dbName);
+    console.log('Database connection established using MongoClient');
+    cb();
+  });
 };
 
+// Function to establish MongoDB connection using mongoose
+const connectMongoose = async (cb) => {
+  try {
+    await mongoose.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true });
+    state.db = mongoose.connection;
+    console.log('Database connection established using mongoose');
+    cb();
+  } catch (err) {
+    console.error('Failed to connect to the database using mongoose. Error:', err);
+    cb(err);
+  }
+};
+
+// Function to establish MongoDB connection
+const connect = (cb) => {
+  // Choose one of the connection methods: MongoClient or mongoose
+  // Uncomment the desired method and comment out the other
+
+  // connectMongoClient(cb);
+  connectMongoose(cb);
+};
 
 // Function to get the database instance
 const get = () => state.db;
@@ -65,7 +62,4 @@ const get = () => state.db;
 module.exports = {
   connect,
   get,
-
-
-  
 };
