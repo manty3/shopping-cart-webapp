@@ -4,7 +4,7 @@ require('dotenv').config();
 
 
 const state = {
-  db: process.env.MONGODB_URL_LOCAL+"/shopping",
+  db: process.env.MONGODB_URL_LOCAL + "/shopping",
 };
 
 // MongoDB connection string from environment variable

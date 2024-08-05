@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node.src/app.js",
-    "dev": "nodemon app.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "dev": "node app.js"
   },
   "dependencies": {
     "@handlebars/allow-prototype-access": "^1.0.5",
