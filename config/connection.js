@@ -8,12 +8,12 @@ const state = {
 };
 
 // MongoDB connection string from environment variable
-// const URL = process.env.MONGODB_URL_LOCAL;
+const URL = process.env.MONGODB_URL_LOCAL;
 
-// if (!URL) {
-//   console.error('MONGODB_URL_LOCAL environment variable is not set.');
-//   process.exit(1);
-// }
+if (!URL) {
+  console.error('MONGODB_URL_LOCAL environment variable is not set.');
+  process.exit(1);
+}
 
 console.log("MongoDB URL:", URL);
 
