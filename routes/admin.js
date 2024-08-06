@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
+const fileUpload = require('express-fileupload');
 const collections =require('../config/collections')
 const db = require('../config/connection');
 var userHelpers=require('../helpers/user-helpers')
@@ -111,9 +111,15 @@ router.post('/edit-product/:id',(req,res)=>{
   let id = req.params.id
   productHelpers.updateProduct(req.params.id,req.body).then(()=>{
     res.redirect('/admin')
-    if(req.files.Image) {
+    if(req.files && req.files.Image) {
       let image=req.files.Image
       image.mv('./public/product-images/'+id+'.jpg')
+      if (err) {
+        console.error("Error moving image file:", err);
+        return res.status(500).send(err);
+      }else {
+        res.redirect('/admin');
+      }
     }
   })
  
