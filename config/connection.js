@@ -1,7 +1,7 @@
 const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 require('dotenv').config();
-
+const MongoStore = require('connect-mongo');
 
 const state = {
   db: process.env.MONGODB_URL_LOCAL + "/shopping",
@@ -22,7 +22,7 @@ const dbName = 'shopping';
 
 // Function to establish MongoDB connection using MongoClient
 const connectMongoClient = (cb) => {
-  MongoClient.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
+  MongoClient.connect(URL, (err, client) => {
     if (err) {
       console.error('Failed to connect to the database. Error:', err);
       return cb(err);
