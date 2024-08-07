@@ -18,7 +18,7 @@ const veriffyLogin=(req,res,next)=>{
 }
 /* GET home page. */
 router.get('/',  async function(req, res, next) {
-  const user=req.session.user
+  let user=req.session.user
   
   let cartCount=null
   if (req.session.user){

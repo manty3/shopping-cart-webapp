@@ -17,7 +17,7 @@ require('dotenv').config();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-app.engine('hbs',hbs.engine({extname:'hbs',defaultLayout:'layout',layoutDir:__dirname+'/views/layout/',partialsDir:__dirname+'/views/partials/' }))
+app.engine('hbs',hbs.engine({extname:'hbs',defaultLayout:'layout',layoutDir:__dirname+'/views/layout/',partialsDir:__dirname+'/views/partials' }))
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -35,6 +35,13 @@ db.connect((err)=>{
 
 app.use('/', usersRouter);
 app.use('/admin', adminRouter);
+app.get('/admin', (req, res) => {
+  res.render('admin', { user: req.user, isAdmin: true });
+});
+
+app.get('/user-page', (req, res) => {
+  res.render('user-page', { user: req.user, isAdmin: false });
+});
 
 
 const PORT = process.env.PORT || 3000;

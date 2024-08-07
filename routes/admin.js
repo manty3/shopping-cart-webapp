@@ -9,64 +9,59 @@ var productHelpers = require('../helpers/product-Helpers');
 const session = require('express-session');
 /* GET users listing. */
 
-const ADMIN_EMAIL = 'akshaymadathil3@gmail.com';
-const ADMIN_PASSWORD = 'Admin@123#';
+// const ADMIN_EMAIL = 'akshaymadathil3@gmail.com';
+// const ADMIN_PASSWORD = 'Admin@123#';
 
-const verifyAdminLogin = (req, res, next) => {
-  if (req.session.admin && req.session.admin.loggedIn) {
-    next();
-  } else {
-    res.redirect('/admin/login');
-  }
-};
+// const verifyAdminLogin = (req, res, next) => {
+//   if (req.session.admin && req.session.admin.loggedIn) {
+//     next();
+//   } else {
+//     res.redirect('/admin/login');
+//   }
+// };
 
 
-router.get('/login', (req, res) => {
-  if (req.session.admin && req.session.admin.loggedIn) {
-    res.redirect('/admin');
-  } else {
-    res.render('admin/login', { "loginErr": req.session.adminLoginErr });
-    req.session.adminLoginErr = false;
-  }
-});
+// router.get('/login', (req, res) => {
+//   if (req.session.admin && req.session.admin.loggedIn) {
+//     res.redirect('/admin');
+//   } else {
+//     res.render('admin/login', { "loginErr": req.session.adminLoginErr });
+//     req.session.adminLoginErr = false;
+//   }
+// });
 
-router.post('/login', (req, res) => {
-  const { Email, Password } = req.body;
+// router.post('/login', (req, res) => {
+//   const { Email, Password } = req.body;
   
-  if (Email === ADMIN_EMAIL && Password === ADMIN_PASSWORD) {
-    req.session.admin = { Email, Password };
-    req.session.admin.loggedIn = true;
+//   if (Email === ADMIN_EMAIL && Password === ADMIN_PASSWORD) {
+//     req.session.admin = { Email, Password };
+//     req.session.admin.loggedIn = true;
   
-    res.redirect('/admin');
-  } else {
-      req.session.adminLoginErr = 'Invalid username or password';
-      res.redirect('/admin/login');
-    }
-  });
+//     res.redirect('/admin');
+//   } else {
+//       req.session.adminLoginErr = 'Invalid username or password';
+//       res.redirect('/admin/login');
+//     }
+//   });
 
 
 // Logout route
-router.get('/logout', (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.redirect('/admin/login');
-    }
-  });
-});
+// router.get('/logout', (req, res) => {
+//   req.session.destroy((err) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       res.redirect('/admin/login');
+//     }
+//   });
+// });
 
 
-
-
-
-
-
-
-router.get('/',verifyAdminLogin, function(req, res, next) {
+router.get('/', function(req, res, next) {
 productHelpers.getAllProducts().then((products)=>{
 
-  res.render('admin/view-products',{products});
+  // res.render('admin/view-products',{products});
+  res.render('admin/view-products',{admin:true,products})
 })
   
 
@@ -114,12 +109,6 @@ router.post('/edit-product/:id',(req,res)=>{
     if(req.files && req.files.Image) {
       let image=req.files.Image
       image.mv('./public/product-images/'+id+'.jpg')
-      if (err) {
-        console.error("Error moving image file:", err);
-        return res.status(500).send(err);
-      }else {
-        res.redirect('/admin');
-      }
     }
   })
  
