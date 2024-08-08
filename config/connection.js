@@ -10,7 +10,7 @@ const state = {
 // MongoDB connection string from environment variable
 const URL = process.env.MONGODB_URL_LOCAL;
 
-if (!URL) {
+if (!URL,{ useNewUrlParser: true, useUnifiedTopology: true}) {
   console.error('MONGODB_URL_LOCAL environment variable is not set.');
   process.exit(1);
 }
