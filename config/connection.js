@@ -1,10 +1,9 @@
-const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 require('dotenv').config();
 const MongoStore = require('connect-mongo');
 
 const state = {
-  db: process.env.MONGODB_URL_LOCAL + "/shopping",
+  db: process.env.MONGODB_URL_LOCAL +"/shopping",
 };
 
 // MongoDB connection string from environment variable
@@ -20,39 +19,20 @@ console.log("MongoDB URL:", URL);
 // Database name
 const dbName = 'shopping';
 
-// Function to establish MongoDB connection using MongoClient
-const connectMongoClient = (cb) => {
-  MongoClient.connect(URL, (err, client) => {
-    if (err) {
-      console.error('Failed to connect to the database. Error:', err);
-      return cb(err);
-    }
-    state.db = client.db(dbName);
-    console.log('Database connection established using MongoClient');
-    cb();
-  });
-};
-
 // Function to establish MongoDB connection using mongoose
-const connectMongoose = async (cb) => {
+const connectMongoose = async () => {
   try {
-    await mongoose.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true });
-    state.db = mongoose.connection;
+    const connection = await mongoose.createConnection(URL, { useNewUrlParser: true, useUnifiedTopology: true });
+    state.db = connection;
     console.log('Database connection established using mongoose');
-    cb();
   } catch (err) {
     console.error('Failed to connect to the database using mongoose. Error:', err);
-    cb(err);
   }
 };
 
 // Function to establish MongoDB connection
-const connect = (cb) => {
-  // Choose one of the connection methods: MongoClient or mongoose
-  // Uncomment the desired method and comment out the other
-
-  // connectMongoClient(cb);
-  connectMongoose(cb);
+const connect = () => {
+  connectMongoose();
 };
 
 // Function to get the database instance

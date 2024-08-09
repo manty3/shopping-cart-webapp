@@ -36,23 +36,16 @@ db.connect((err)=>{
 
 app.use('/', usersRouter);
 app.use('/admin', adminRouter);
-app.get('/admin', (req, res) => {
-  res.render('admin', { user: req.user, isAdmin: true });
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
 });
-
-app.get('/user-page', (req, res) => {
-  res.render('user-page', { user: req.user, isAdmin: false });
-});
-
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, ()=>{
   console.log('listening on port 3000')
 })
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+
 
 // error handler
 app.use(function(err, req, res, next) {
